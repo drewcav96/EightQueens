@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Agent {
 	private int _iterations;
+	private int _restarts;
 	private Board _nextBestState;
 	private int _nextBestHeuristic;
 	
@@ -17,6 +18,7 @@ public class Agent {
 	 */
 	public Agent() {
 		_iterations = 1;
+		_restarts = 0;
 		_nextBestState = null;
 		_nextBestHeuristic = -1;
 	}
@@ -28,6 +30,15 @@ public class Agent {
 	 */
 	public int getIterations() {
 		return _iterations;
+	}
+	
+	/**
+	 * Returns the number of restarts this Agent has encountered.
+	 * Restarts are incremented each time determineLowerNeighbors() determines there are no further neighbor states to evaluate before the goal state has been reached.
+	 * @return Number of restarts.
+	 */
+	public int getRestarts() {
+		return _restarts;
 	}
 	
 	/**
@@ -50,6 +61,7 @@ public class Agent {
 	 * Calculates all neighbors for the specified board.
 	 * Evaluates number of neighbor states that have a lower heuristic value than the specified board.
 	 * Remembers the next best board state and its heuristic value to be accessed.
+	 * If number of neighbors with lower heuristic values is zero and the next best state isn't in the goal state, then increment the restart counter.
 	 * @param board The current board state.
 	 * @return Number of neighbors with lower heuristic values.
 	 */
@@ -74,6 +86,9 @@ public class Agent {
 			}
 		}
 		_iterations++;
+		if (lowerStates == 0 && _nextBestHeuristic != 0) {
+			_restarts++;
+		}
 		return lowerStates;
 	}
 }

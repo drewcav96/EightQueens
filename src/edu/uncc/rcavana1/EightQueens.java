@@ -32,12 +32,15 @@ public final class EightQueens {
 			System.out.println("Runtime error! Too many arguments specified.\r\n");
 			exit(true);
 		}
+		System.out.println("Eight Queens AI program");
+		System.out.println("by Drew Cavanaugh (rcavana1@uncc.edu)");
+		System.out.println(String.format("Grid size: %d", size));
 		_scan = new Scanner(System.in);
 		_agent = new Agent();
 		_board = new Board(size);
 		// repeat while the board has not reached goal state
 		while (!_board.isGoalState()) {
-			System.out.println(String.format("Agent iteration: %d", _agent.getIterations()));
+			System.out.println(String.format("\r\n========== State: %d ==========\r\n", _agent.getIterations()));
 			printBoard();
 			int lowerNeighbors = _agent.determineLowerNeighbors(_board);
 			
@@ -48,11 +51,13 @@ public final class EightQueens {
 			} else {
 				System.out.println(String.format("Next best board state has heuristic value: %d.", _agent.getNextBestHeuristic()));
 			}
-			System.out.println("Press enter to go to next state...");
+			System.out.println("Press enter to continue...");
 			waitForEnterKey();
 			_board = _agent.getNextBestState();
 		}
+		System.out.println(String.format("\r\n========== Final State: %d ==========\r\n", _agent.getIterations()));
 		System.out.println(String.format("Goal state reached in %d iterations.", _agent.getIterations()));
+		System.out.println(String.format("Number of restarts: %d\r\n", _agent.getRestarts()));
 		printBoard();
 		System.out.println("Press enter to exit...");
 		waitForEnterKey();
@@ -63,7 +68,7 @@ public final class EightQueens {
 	 * Prints the current board state to console.
 	 */
 	private static void printBoard() {
-		System.out.println(String.format("State heuristic: %d\r\n", _board.determineHeuristic()));
+		System.out.println(String.format("State heuristic: %d", _board.determineHeuristic()));
 		System.out.println("State:");
 		System.out.println(_board.toString());
 	}
